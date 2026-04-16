@@ -95,8 +95,16 @@ public class DoublyLinkedList<T> {
      * @return cantidad de ocurrencias
      */
     public int countOccurrences(T value) {
-        throw new UnsupportedOperationException(
-                "TODO RETO: Implementar countOccurrences(T value) en DoublyLinkedList.");
+      int count = 0; 
+      DoublyNode<T> current = head; 
+      
+      while (current != null) {
+    	  if (current.getValue().equals(value)) {
+    		  count++;
+    	  }
+    	  current = current.getNext();
+      }
+      return count; 
     }
 
     /**
@@ -106,8 +114,21 @@ public class DoublyLinkedList<T> {
      * @return nodos eliminados
      */
     public int clean() {
-        throw new UnsupportedOperationException(
-                "TODO RETO: Implementar clean() en DoublyLinkedList.");
+       int count = 0;
+       DoublyNode<T> current = head; 
+       
+       while (current != null) {
+    	   DoublyNode<T> next = current.getNext();
+    	   
+    	   current.setNext(null);
+    	   current.setPrevious(null);
+    	   
+    	   current = next; 
+    	   count++; 
+       }
+       head = null; 
+       tail = null;
+       return count; 
     }
 
     /**
@@ -115,8 +136,19 @@ public class DoublyLinkedList<T> {
      * Invierte la lista in-place, actualizando enlaces next/previous.
      */
     public void reverseInPlace() {
-        throw new UnsupportedOperationException(
-                "TODO RETO: Implementar reverseInPlace() en DoublyLinkedList.");
+       DoublyNode<T> current = head; 
+       DoublyNode<T> tem = null; 
+       
+       while (current != null) {
+    	   tem = current.getPrevious();
+    	   current.setPrevious(current.getNext());
+    	   current.setNext(tem);
+    	   current = current.getPrevious();
+       }
+       if (tem != null) {
+    	   tail = head; 
+    	   head = tem.getPrevious();
+       }
     }
 
     /**
@@ -126,8 +158,30 @@ public class DoublyLinkedList<T> {
      * @return cantidad de nodos eliminados
      */
     public int removeDuplicates() {
-        throw new UnsupportedOperationException(
-                "TODO RETO: Implementar removeDuplicates() en DoublyLinkedList.");
+        int count = 0;
+        DoublyNode<T> current = head; 
+        
+        while (current != null ) {
+        	DoublyNode<T> runner = current.getNext();
+        	
+        	while (runner != null ) {
+        		if (runner.getValue().equals(current.getValue())) {
+        			DoublyNode<T> next = runner.getNext();
+        			
+        			if (runner.getPrevious() != null) {
+        				runner.getPrevious().setNext(next);
+        			}
+        			if (next == tail) {
+        				tail = runner.getPrevious();
+        			}
+        			size--;
+        			count++;
+        		}
+        		runner = runner.getNext();
+        	}
+        	current = current.getNext();
+        }
+        return count; 
     }
 
     public String toForwardString() {
